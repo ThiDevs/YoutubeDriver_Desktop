@@ -26,13 +26,8 @@ public class Teste {
 	static List<String> Link_Videos = new ArrayList<String>();
 	public static void main(String[] args) throws InterruptedException, IOException {
 		
-		String Path = "E:\\chromedriver.exe";
-		//Path = "\\\\vix-gr-010\\D\\chromedriver.exe";
-		//Path = "C:\\Users\\redes\\Desktop\\operadriver.exe";
+		String Path = "C:\\Users\\redes\\Desktop\\chromedriver.exe";
 		ChromeOptions options = new ChromeOptions();
-		//options.setBinary("C:\\Program Files\\Opera\\launcher.exe");
-		//System.setProperty("webdriver.chrome.driver",Path);
-		//WebDriver driver = new OperaDriver(options);
 		
 		System.setProperty("webdriver.chrome.driver",Path);
 		WebDriver driver = new ChromeDriver();
@@ -63,6 +58,7 @@ public class Teste {
                             Thread.sleep(3000);
 
                             String Title_Videos = "";
+                            String Desc_Videos = "";
                             String Thumb_Videos = "";
                             
 
@@ -73,8 +69,12 @@ public class Teste {
 
                                     Title_Videos += ";" + InfosVideos.findElement(By.id("title-wrapper")).getText();
 
+                                    System.out.println(InfosVideos.findElement(By.id("description-text")).getText());
+
 
                                     Thumb_Videos += ";" + InfosVideos.findElement(By.id("img")).getAttribute("src");
+
+
                                     
                                     Link_Videos.add(InfosVideos.findElement(By.id("thumbnail")).getAttribute("href"));
                                     
@@ -100,8 +100,7 @@ public class Teste {
                             }
                         }else if (((pesquisar.length() > 10) && pesquisar.substring(0, 11).equals("@CodVIDEO==")) ) {
                         	int index = Integer.parseInt(Separa[1]);
-                        	System.out.println(Separa[1]);                        	
-                        	//System.out.println();
+                        	System.out.println(Separa[1]);
                         	driver.navigate().to(Link_Videos.get(index));
                         	driver.findElement(By.id("//*[@id=\"movie_player\"]/div[28]/div[2]/div[2]/button[6]"));
                         
