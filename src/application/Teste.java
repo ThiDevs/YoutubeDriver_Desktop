@@ -27,6 +27,7 @@ public class Teste {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		
 		String Path = "C:\\Users\\redes\\Desktop\\chromedriver.exe";
+        Path =  "C:\\Users\\Thiago\\Desktop\\chromedriver.exe";
 		ChromeOptions options = new ChromeOptions();
 		
 		System.setProperty("webdriver.chrome.driver",Path);
@@ -43,12 +44,8 @@ public class Teste {
                         Socket C = Servidor.accept();
                         Scanner s = new Scanner(C.getInputStream());
                         String pesquisar = s.nextLine();
-                        
-                        //if(pesquisar.length())
+
                         String[] Separa = pesquisar.split("@CodVIDEO==");
-                        //System.out.println(Separa[1]);
-                        		
-                        		//);}
                         
                         if (pesquisar.equals("@Cod==1")) {
 
@@ -59,6 +56,8 @@ public class Teste {
 
                             String Title_Videos = "";
                             String Desc_Videos = "";
+                            String Channel_Videos = "";
+                            String DataYT_Videos = "";
                             String Thumb_Videos = "";
                             
 
@@ -69,11 +68,17 @@ public class Teste {
 
                                     Title_Videos += ";" + InfosVideos.findElement(By.id("title-wrapper")).getText();
 
-                                    System.out.println(InfosVideos.findElement(By.id("description-text")).getText());
-
-
                                     Thumb_Videos += ";" + InfosVideos.findElement(By.id("img")).getAttribute("src");
 
+                                    Desc_Videos += ";" + InfosVideos.findElement(By.id("description-text")).getText();
+
+                                    Channel_Videos += ";" + InfosVideos.findElement(By.id("byline")).getText();
+
+                                    String SeparaData = ";" + InfosVideos.findElement(By.id("metadata-line")).getText();
+
+                                    String[] JuntaData = SeparaData.split("\n");
+
+                                    DataYT_Videos += JuntaData[0]+" "+ JuntaData[1];
 
                                     
                                     Link_Videos.add(InfosVideos.findElement(By.id("thumbnail")).getAttribute("href"));
@@ -85,15 +90,19 @@ public class Teste {
                             }
                             System.out.println(Title_Videos);
                             System.out.println(Thumb_Videos);
-                            System.out.println(Link_Videos);
+                            System.out.println(Desc_Videos);
+                            System.out.println(Channel_Videos);
+                            System.out.println(DataYT_Videos);
                             try {
                             	ServerSocket Servidor2 = new ServerSocket(7879);
                             	Socket C2 = Servidor2.accept();
                                 PrintWriter writer = new PrintWriter(C2.getOutputStream());
                                 writer.write(Title_Videos+"\n");
-                                writer.write(Thumb_Videos);
+                                writer.write(Thumb_Videos+"\n");
+                                writer.write(Desc_Videos+"\n");
+                                writer.write(Channel_Videos+"\n");
+                                writer.write(DataYT_Videos+"\n");
                                 writer.flush();
-                                
                                 writer.close();
                             } catch (Exception e) {
 
