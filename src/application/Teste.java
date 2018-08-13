@@ -27,7 +27,7 @@ public class Teste {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		
 		String Path = "C:\\Users\\redes\\Desktop\\chromedriver.exe";
-        Path =  "C:\\Users\\Thiago\\Desktop\\chromedriver.exe";
+       // Path =  "C:\\Users\\Thiago\\Desktop\\chromedriver.exe";
 		ChromeOptions options = new ChromeOptions();
 		
 		System.setProperty("webdriver.chrome.driver",Path);

@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="YoutubeDrive2" />
+        <module name="YoutubeDriver_Desktop" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="YoutubeDrive2" target="1.8" />
+      <module name="YoutubeDriver_Desktop" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
