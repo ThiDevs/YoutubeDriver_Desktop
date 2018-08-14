@@ -43,10 +43,13 @@ public class SampleController {
 
 
         Path =  "C:\\Users\\Thiago\\Desktop\\chromedriver.exe";
+        Path = "C:\\Users\\redes\\Desktop\\chromedriver.exe";
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-infobars");
+        options.addArguments("start-maximized");
 
         System.setProperty("webdriver.chrome.driver",Path);
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(options);
         driver.get("http://www.youtube.com");
 
 
@@ -100,14 +103,10 @@ public class SampleController {
 
 
                                 } catch (Exception e) {
-                                    //e.printStackTrace();
+
                                 }
                             }
-                            System.out.println(Title_Videos);
-                            System.out.println(Thumb_Videos);
-                            System.out.println(Desc_Videos);
-                            System.out.println(Channel_Videos);
-                            System.out.println(DataYT_Videos);
+
                             try {
                                 ServerSocket Servidor2 = new ServerSocket(7879);
                                 Socket C2 = Servidor2.accept();
@@ -119,20 +118,34 @@ public class SampleController {
                                 writer.write(DataYT_Videos+"\n");
                                 writer.flush();
                                 writer.close();
+                                Servidor2.close();
+                                System.out.println("Enviado");
                             } catch (Exception e) {
+                                e.printStackTrace();
 
                             }
                         }else if (((pesquisar.length() > 10) && pesquisar.substring(0, 11).equals("@CodVIDEO==")) ) {
                             int index = Integer.parseInt(Separa[1]);
                             System.out.println(Separa[1]);
                             driver.navigate().to(Link_Videos.get(index));
-//                        	driver.findElement(By.id("//*[@id=\"movie_player\"]/div[28]/div[2]/div[2]/button[6]"));
+                            WebElement element = driver.findElement(By.className("ytp-chrome-controls"));
+                            List<WebElement> childs = element.findElements(By.xpath(".//*"));
+                            for(WebElement a : childs) {
+                                String z = a.getAttribute("class");
+                                if (z != null && z.equals("ytp-fullscreen-button ytp-button")){
+                                    a.click();
+                                }
+                            }
 
 
                         }
                         else {
-                            WebElement element = driver.findElement(By.id("search"));
-                            System.out.println(pesquisar);
+                            WebElement element;
+                            try {
+                                element = driver.findElement(By.id("search"));
+                            } catch (Exception e){
+                                element = driver.findElement(By.id("masthead-search-term"));
+                            }
                             driver.findElement(By.id("search")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
                             element.sendKeys(pesquisar);
 
@@ -144,7 +157,6 @@ public class SampleController {
 
                 } while (true);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
