@@ -26,15 +26,17 @@ public class Teste {
 	static List<String> Link_Videos = new ArrayList<String>();
 	public static void main(String[] args) throws InterruptedException, IOException {
 		
-		String Path = "C:\\Users\\redes\\Desktop\\chromedriver.exe";
-       // Path =  "C:\\Users\\Thiago\\Desktop\\chromedriver.exe";
-		ChromeOptions options = new ChromeOptions();
-		
-		System.setProperty("webdriver.chrome.driver",Path);
-		WebDriver driver = new ChromeDriver();
-		driver.get("http://www.youtube.com");
-        
-        
+		System.out.println(System.getenv("ProgramFiles")+"\\Youtube Driver\\chromedriver.exe");
+        String Path = System.getenv("ProgramFiles")+"\\Youtube Driver\\chromedriver.exe";
+
+
+        ChromeOptions options = new ChromeOptions();
+
+        System.setProperty("webdriver.chrome.driver",Path);
+        WebDriver driver = new ChromeDriver();
+        driver.get("http://www.youtube.com");
+
+
         Thread t = new Thread(() -> {
             try {
                 ServerSocket Servidor = new ServerSocket(7878);
@@ -46,10 +48,10 @@ public class Teste {
                         String pesquisar = s.nextLine();
 
                         String[] Separa = pesquisar.split("@CodVIDEO==");
-                        
+
                         if (pesquisar.equals("@Cod==1")) {
 
-                        	Link_Videos.clear();
+                            Link_Videos.clear();
                             WebElement ok = driver.findElement(By.id("search-icon-legacy"));
                             ok.click();
                             Thread.sleep(3000);
@@ -59,7 +61,7 @@ public class Teste {
                             String Channel_Videos = "";
                             String DataYT_Videos = "";
                             String Thumb_Videos = "";
-                            
+
 
                             for (int i = 1; i < 21; i++) {
                                 try {
@@ -80,10 +82,10 @@ public class Teste {
 
                                     DataYT_Videos += JuntaData[0]+" "+ JuntaData[1];
 
-                                    
+
                                     Link_Videos.add(InfosVideos.findElement(By.id("thumbnail")).getAttribute("href"));
-                                    
-                                    
+
+
                                 } catch (Exception e) {
                                     //e.printStackTrace();
                                 }
@@ -94,8 +96,8 @@ public class Teste {
                             System.out.println(Channel_Videos);
                             System.out.println(DataYT_Videos);
                             try {
-                            	ServerSocket Servidor2 = new ServerSocket(7879);
-                            	Socket C2 = Servidor2.accept();
+                                ServerSocket Servidor2 = new ServerSocket(7879);
+                                Socket C2 = Servidor2.accept();
                                 PrintWriter writer = new PrintWriter(C2.getOutputStream());
                                 writer.write(Title_Videos+"\n");
                                 writer.write(Thumb_Videos+"\n");
@@ -108,12 +110,12 @@ public class Teste {
 
                             }
                         }else if (((pesquisar.length() > 10) && pesquisar.substring(0, 11).equals("@CodVIDEO==")) ) {
-                        	int index = Integer.parseInt(Separa[1]);
-                        	System.out.println(Separa[1]);
-                        	driver.navigate().to(Link_Videos.get(index));
-                        	driver.findElement(By.id("//*[@id=\"movie_player\"]/div[28]/div[2]/div[2]/button[6]"));
-                        
-                        	
+                            int index = Integer.parseInt(Separa[1]);
+                            System.out.println(Separa[1]);
+                            driver.navigate().to(Link_Videos.get(index));
+//                        	driver.findElement(By.id("//*[@id=\"movie_player\"]/div[28]/div[2]/div[2]/button[6]"));
+
+
                         }
                         else {
                             WebElement element = driver.findElement(By.id("search"));
@@ -135,7 +137,7 @@ public class Teste {
 
         });
         t.start();
-	       
+
 	}
 
 }
